@@ -1,0 +1,19 @@
+{
+  "name": "middle-ws",
+  "version": "1.0.0",
+  "description": "Websockets implementation for middle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofuangka/middle-ws.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ofuangka/middle-ws/issues"
+  },
+  "homepage": "https://github.com/ofuangka/middle-ws#readme"
+}
