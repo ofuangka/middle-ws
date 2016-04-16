@@ -1,15 +1,21 @@
 (function wrapper() {
-    var WebSocketServer = require('ws').Server;
-    var port = process.env.PORT || 5000;
-    var server = new WebSocketServer({
-        port: port
-    }, function callback() {
-        // do nothing
-    });
+    var WebSocketServer = require('ws').Server,
+        http = require('http'),
+        express = require('express'),
+        port = process.env.PORT || 5000;
+
+    var app = express();
+    app.use(express.static(__dirname + '/'));
+
+    var server = http.createServer(app);
+    server.listen(port);
+    console.log('http server listening on %d', port);
+
+    var wsServer = new WebSocketServer({ server: server });
 
     var groups = {};
 
-    server.on('connection', function socketDidConnect(socket) {
+    wsServer.on('connection', function socketDidConnect(socket) {
         function removeSocketFromGroups() {
             var i, len, groupId, member;
 
