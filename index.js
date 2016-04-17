@@ -20,7 +20,7 @@
         counter = 0;
 
     wsServer.on('connection', function socketDidConnect(socket) {
-        console.log('socket ' + (counter++) + ' connected');
+        console.log('socket ' + (++counter) + ' connected');
 
         function addSocketToGroup(groupId) {
 
