@@ -14,11 +14,24 @@
     server.listen(port);
     console.log('http server listening on %d', port);
 
-    var wsServer = new WebSocketServer({ server: server });
+    var wsServer = new WebSocketServer({server: server});
 
     var groups = {};
 
     wsServer.on('connection', function socketDidConnect(socket) {
+        function addSocketToGroup(groupId) {
+
+            /* create the group if it does not yet exist */
+            if (!(groupId in groups)) {
+                groups[groupId] = [];
+            }
+
+            /* add the socket to the group */
+            groups[groupId].push(socket);
+
+            console.log('groupAdd: ' + groups);
+        }
+
         function removeSocketFromGroups() {
             var i, len, groupId, member;
 
@@ -38,6 +51,8 @@
                     }
                 }
             }
+
+            console.log('groupDel: ' + groups);
         }
 
         /* each message is considered to be a group join. */
@@ -52,14 +67,7 @@
 
                 /* we consider this to be a new group join, so remove the socket from previous groups */
                 removeSocketFromGroups();
-
-                /* create the group if it does not yet exist */
-                if (!(groupId in groups)) {
-                    groups[groupId] = [];
-                }
-
-                /* add the socket to the group */
-                groups[groupId].push(socket);
+                addSocketToGroup(groupId);
 
                 /* notify all the group members of the event */
                 for (i = 0, len = groups[groupId].length; i < len; i++) {
