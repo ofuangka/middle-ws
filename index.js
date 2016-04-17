@@ -14,24 +14,27 @@
     server.listen(port);
     console.log('http server listening on %d', port);
 
-    var wsServer = new WebSocketServer({server: server});
-
-    var groups = {};
+    var wsServer = new WebSocketServer({server: server}),
+        groups = {},
+        printableGroups = {},
+        counter = 0;
 
     wsServer.on('connection', function socketDidConnect(socket) {
-        console.log('socket ' + socket + ' connected');
+        console.log('socket ' + (counter++) + ' connected');
 
         function addSocketToGroup(groupId) {
 
             /* create the group if it does not yet exist */
             if (!(groupId in groups)) {
                 groups[groupId] = [];
+                printableGroups[groupId] = [];
             }
 
             /* add the socket to the group */
             groups[groupId].push(socket);
+            printableGroups[groupId].push(counter);
 
-            console.log('groupAdd: ' + JSON.stringify(groups));
+            console.log('groupAdd: ' + JSON.stringify(printableGroups));
         }
 
         function removeSocketFromGroups() {
@@ -44,17 +47,19 @@
 
                         /* remove the member from the group */
                         groups[groupId].splice(i, 1);
+                        printableGroups[groupId].splice(i, 1);
 
                         /* remove the group if it is now empty */
                         if (groups[groupId].length === 0) {
                             delete groups[groupId];
+                            delete printableGroups[groupId];
                         }
                         break;
                     }
                 }
             }
 
-            console.log('groupDel: ' + JSON.stringify(groups));
+            console.log('groupDel: ' + JSON.stringify(printableGroups));
         }
 
         /* each message is considered to be a group join. */
