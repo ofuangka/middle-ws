@@ -19,6 +19,8 @@
     var groups = {};
 
     wsServer.on('connection', function socketDidConnect(socket) {
+        console.log('socket ' + socket + ' connected');
+
         function addSocketToGroup(groupId) {
 
             /* create the group if it does not yet exist */
@@ -29,7 +31,7 @@
             /* add the socket to the group */
             groups[groupId].push(socket);
 
-            console.log('groupAdd: ' + groups);
+            console.log('groupAdd: ' + JSON.stringify(groups));
         }
 
         function removeSocketFromGroups() {
@@ -52,7 +54,7 @@
                 }
             }
 
-            console.log('groupDel: ' + groups);
+            console.log('groupDel: ' + JSON.stringify(groups));
         }
 
         /* each message is considered to be a group join. */
