@@ -48,7 +48,7 @@
 
             var groupId, i, len, data = JSON.parse(message);
             if (isValid(data)) {
-                groupId = message.groupId;
+                groupId = data.groupId;
 
                 /* we consider this to be a new group join, so remove the socket from previous groups */
                 removeSocketFromGroups();
@@ -65,9 +65,9 @@
                 for (i = 0, len = groups[groupId].length; i < len; i++) {
                     groups[groupId][i].send(JSON.stringify({
                         groupId: groupId,
-                        userId: message.userId,
-                        lat: message.lat,
-                        lng: message.lng
+                        userId: data.userId,
+                        lat: data.lat,
+                        lng: data.lng
                     }));
                 }
 
