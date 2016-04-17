@@ -2,7 +2,8 @@
     var WebSocketServer = require('ws').Server,
         http = require('http'),
         port = process.env.PORT || 5000,
-        redirectUrl = process.env.REDIRECT_URL || 'http://middle-me.appspot.com';
+        redirectUrl = process.env.REDIRECT_URL,
+        expectedOrigin = process.env.EXPECTED_ORIGIN;
 
     var server = http.createServer(function requestListener(request, response) {
         /* just redirect */
@@ -17,8 +18,7 @@
     var wsServer = new WebSocketServer({
         server: server,
         verifyClient: function verifyClient(info) {
-            console.log(info.origin);
-            return true;
+            return expectedOrigin === info.origin;
         }
     }),
         groups = {},
