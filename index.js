@@ -14,7 +14,13 @@
     server.listen(port);
     console.log('http server listening on %d', port);
 
-    var wsServer = new WebSocketServer({server: server}),
+    var wsServer = new WebSocketServer({
+        server: server,
+        verifyClient: function verifyClient(info) {
+            console.log(info.origin);
+            return true;
+        }
+    }),
         groups = {},
         printableGroups = {},
         counter = 0;
