@@ -46,8 +46,8 @@
                 return true;
             }
 
-            var groupId, i, len;
-            if (isValid(message)) {
+            var groupId, i, len, data = JSON.parse(message);
+            if (isValid(data)) {
                 groupId = message.groupId;
 
                 /* we consider this to be a new group join, so remove the socket from previous groups */
