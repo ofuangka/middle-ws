@@ -16,11 +16,12 @@
     console.log('http server listening on %d', port);
 
     var wsServer = new WebSocketServer({
-        server: server,
-        verifyClient: function verifyClient(info) {
-            return expectedOrigin === info.origin;
-        }
-    }),
+            server: server,
+            verifyClient: function verifyClient(info) {
+                console.log('handshake: ' + info.origin);
+                return expectedOrigin === info.origin;
+            }
+        }),
         groups = {},
         printableGroups = {},
         counter = 0;
