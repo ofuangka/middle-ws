@@ -71,12 +71,12 @@
 
         /* each message is considered to be a group join. */
         socket.on('message', function socketDidSendMessage(message, flags) {
-            function isValid(data) {
-                return true;
+            function isValidGroupJoin(data) {
+                return data !== 'ping';
             }
 
             var groupId, i, len, data = JSON.parse(message);
-            if (isValid(data)) {
+            if (isValidGroupJoin(data)) {
                 groupId = data.groupId;
 
                 /* we consider this to be a new group join, so remove the socket from previous groups */
@@ -86,6 +86,8 @@
                 /* notify all the group members of the event */
                 for (i = 0, len = groups[groupId].length; i < len; i++) {
                     groups[groupId][i].send(JSON.stringify({
+                        id: data.id,
+                        username: data.username,
                         groupId: groupId,
                         userId: data.userId,
                         lat: data.lat,
