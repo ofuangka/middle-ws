@@ -1,13 +1,16 @@
 (function wrapper() {
     var WebSocketServer = require('ws').Server,
         http = require('http'),
-        express = require('express'),
-        port = process.env.PORT || 5000;
+        port = process.env.PORT || 5000,
+        redirectUrl = process.env.REDIRECT_URL || 'http://middle-me.appspot.com';
 
-    var app = express();
-    app.use(express.static(__dirname + '/'));
-
-    var server = http.createServer(app);
+    var server = http.createServer(function requestListener(request, response) {
+        /* just redirect */
+        response.writeHead(302, {
+            Location: redirectUrl
+        });
+        response.end();
+    });
     server.listen(port);
     console.log('http server listening on %d', port);
 
