@@ -91,7 +91,8 @@
                         groupId: groupId,
                         userId: data.userId,
                         lat: data.lat,
-                        lng: data.lng
+                        lng: data.lng,
+                        lastUpdatedTs: data.lastUpdatedTs
                     }));
                 }
 
